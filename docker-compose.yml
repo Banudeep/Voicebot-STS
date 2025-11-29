@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  sts-voice-agent:
+    build: .
+    container_name: sts-voice-agent
+    ports:
+      - "8080:8080"  # Web UI
+      - "3000:3000"  # WebSocket
+    environment:
+      # Provider selection (set to "true" for Azure, "false" for OpenAI)
+      - USE_AZURE=${USE_AZURE:-false}
+      
+      # OpenAI settings (used when USE_AZURE=false)
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      
+      # Azure OpenAI settings (used when USE_AZURE=true)
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY}
+      - AZURE_OPENAI_DEPLOYMENT=${AZURE_OPENAI_DEPLOYMENT}
+      - AZURE_API_VERSION=${AZURE_API_VERSION:-2024-10-01-preview}
+      
+      # Optional settings
+      - ENABLE_RECORDINGS=${ENABLE_RECORDINGS:-false}
+    volumes:
+      # Mount recordings directory (if ENABLE_RECORDINGS=true)
+      - ./recordings:/app/recordings
+    restart: unless-stopped
+
