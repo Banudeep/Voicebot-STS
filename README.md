@@ -72,18 +72,7 @@ The **STS Voice Agent** is a real-time voice assistant that enables natural, con
 
 ## 🏗️ Architecture
 
-```
-┌─────────────────┐     WebSocket      ┌─────────────────┐     WebSocket      ┌─────────────────┐
-│                 │ ◄───────────────► │                 │ ◄───────────────► │                 │
-│     Browser     │   Audio (24kHz)   │   STS Agent     │   Audio (24kHz)    │  GPT-4o Realtime│
-│   (Web UI)      │   PCM16 mono      │    (Python)     │   PCM16 mono       │      API        │
-│                 │   Port: 8080      │                 │                   │                 │
-└─────────────────┘                    └─────────────────┘                    └─────────────────┘
-         │                                       │                                       │
-         │                                       │                                       │
-    AudioWorklet                          aiohttp Server                        OpenAI/Azure
-    (24kHz capture)                       (Unified HTTP+WS)                      Realtime API
-```
+<img src="images/Voicebot-STS-architecture-diag.png" alt="Architecture Diagram"/>
 
 ### **Technology Stack**
 
